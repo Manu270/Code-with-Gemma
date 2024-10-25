@@ -1,0 +1,112 @@
+/* Importing Google Font */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap");
+
+body {
+  font-family: "Poppins", sans-serif;
+  margin: 0;
+  padding: 0;
+  background-size: cover;
+  height: 100vh;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+}
+
+header {
+  background-color: rgba(0, 0, 0, 0.7);
+  padding: 20px;
+  text-align: center;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 36px;
+  color: #fff;
+  font-weight: 600;
+}
+
+.container {
+  display: flex;
+  flex: 1;
+  width: 100%;
+}
+
+.editor-section,
+.output-section {
+  padding: 20px;
+  box-sizing: border-box;
+  height: calc(100vh - 60px); /* Adjust height to full screen minus header */
+}
+
+.editor-section {
+  width: 50%;
+  background-color: rgba(0, 0, 0, 0.8);
+  border-right: 2px solid rgba(255, 255, 255, 0.2);
+  display: flex;
+  flex-direction: column;
+}
+
+.output-section {
+  width: 50%;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  flex-direction: column;
+}
+
+h2 {
+  color: #fff;
+  font-size: 24px;
+  font-weight: 600;
+  margin-top: 0;
+}
+
+textarea {
+  flex: 1;
+  width: 100%;
+  padding: 15px;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 16px;
+  border: none;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  box-sizing: border-box;
+  background-color: #333;
+  color: #fff;
+  resize: none;
+}
+
+button {
+  display: block;
+  width: 100%;
+  padding: 15px;
+  background-color: #007bff;
+  color: white;
+  font-size: 18px;
+  font-weight: 500;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: auto; /* Align to bottom */
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+button i {
+  margin-right: 10px;
+}
+
+button:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+}
+
+pre {
+  flex: 1;
+  background-color: #333;
+  padding: 15px;
+  border: none;
+  border-radius: 6px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  color: #fff;
+  overflow-y: auto;
+}

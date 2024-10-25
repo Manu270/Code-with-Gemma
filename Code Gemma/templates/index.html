@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Code Compiler</title>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+    />
+    <style>
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+        background-color: #f0f2f5;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+        width: 100vw;
+      }
+
+      .header {
+        background-color: #000000;
+        color: #ffffff;
+        padding: 10px 20px;
+        display: flex;
+        align-items: center;
+        border-radius: 15px;
+        justify-content: center;
+        position: relative;
+        height: 220px;
+        margin-bottom: 20px;
+        margin-top: 10px;
+      }
+
+      .header img {
+        position: absolute;
+        left: 20px;
+        max-width: 90%; 
+        max-height: 90%;
+        height: auto;
+        width: auto;
+        object-fit: contain;
+      }
+
+      .header h1 {
+        font-size: 30px;
+        font-weight: 700;
+        font-family: "Courier New", Courier, monospace;
+        margin: 0;
+        padding-left: 280px; /* Add padding to prevent overlap with the image */
+      }
+
+      .content {
+        display: flex;
+        flex: 1;
+        overflow: hidden;
+      }
+
+      .editor-container {
+        flex: 1;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        background-color: #1e1e1e;
+        justify-content: flex-end;
+        overflow-y: auto; /* Allow vertical scrolling */
+      }
+
+      .output-container {
+        flex: 1;
+        padding: 20px;
+        background-color: #1e1e1e;
+        color: #ffffff;
+        display: flex;
+        flex-direction: column;
+        overflow-y: auto; /* Allow vertical scrolling */
+      }
+
+      .output-box,
+      .error-box,
+      .suggestion-box,
+      .time-box {
+        margin-bottom: 15px;
+        padding: 15px;
+        border-radius: 8px;
+        font-family: monospace;
+        white-space: pre-wrap;
+        background-color: #2b2b2b;
+        border: 1px solid #555;
+        max-height: 150px; /* Limit height to control scrolling */
+        overflow-y: auto; /* Allow vertical scrolling */
+      }
+
+      #editor {
+        flex: 1;
+        border-radius: 8px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ddd;
+        height: 100%;
+        overflow-y: auto; /* Allow vertical scrolling */
+      }
+
+      .btn-run {
+        background-color: #0db93b;
+        color: #fff;
+        border-color: #fafafa;
+        border-radius: 10px;
+        font-size: 14px;
+        padding: 10px 20px;
+        margin-top: 6px;
+        margin-bottom: 2px;
+        margin-left: 276px;
+        width: 100px;
+        align-self: flex-end;
+      }
+
+      .btn-run:hover {
+        background-color: #335cdc;
+        border-color: #335cdc;
+      }
+
+      .output-box,
+      .error-box,
+      .suggestion-box,
+      .time-box {
+        margin-bottom: 15px;
+        padding: 15px;
+        border-radius: 8px;
+        font-family: monospace;
+        white-space: pre-wrap;
+        background-color: #2b2b2b;
+        border: 1px solid #555;
+      }
+
+      .output-box {
+        color: #66f06d;
+      }
+
+      .error-box {
+        color: #c0392b;
+      }
+
+      .suggestion-box {
+        color: #4c8bfc;
+      }
+
+      .time-box {
+        color: #f0f2f5;
+        text-align: left;
+      }
+      .center-img {
+        display: block;
+        margin: 0 auto; /* Centers the image horizontally */
+        text-align: center;
+        margin-top: 10px;
+        margin-bottom: 10px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="content">
+      <div class="output-container">
+        <img
+          src="static/image.png"
+          width="440px"
+          height="40px"
+          class="center-img"
+        />
+        <br />
+        <div class="header">
+          <img src="static/Gemma.jpeg" />
+          <h1>Hello! I'm Gemma..<br /><br />How can i Assist you today?</h1>
+        </div>
+        <h3>Gemma's Suggestion:</h3>
+        <div id="suggestions" class="suggestion-box">Optimisation is the Key!</div>
+        <h3>Error:</h3>
+        <pre id="error" class="error-box">No Error!</pre>
+        <h3>Execution Time:</h3>
+        <div id="time" class="time-box">0.00 ms</div>
+      </div>
+      <div class="editor-container">
+        <div id="editor"></div>
+        <div
+          class="form-group"
+          style="display: flex; align-items: center; gap: 20px"
+        >
+          <div style="display: flex; flex-direction: column">
+            <label
+              for="language"
+              style="color: #ffffff; font-size: 16px; margin-bottom: 5px"
+            ></label>
+            <select
+              id="language"
+              class="form-control"
+              style="
+                padding: 10px;
+                width: 120px;
+                background-color: #333;
+                color: #fff;
+                border: 2px solid #555;
+                border-radius: 8px;
+                font-size: 14px;
+                cursor: pointer;
+              "
+            >
+              <option value="python">Python</option>
+              <option value="c">C</option>
+              <option value="cpp">C++</option>
+              <option value="java">Java</option>
+            </select>
+          </div>
+
+          <div style="display: flex; flex-direction: column">
+            <label
+              for="modelr"
+              style="color: #ffffff; font-size: 16px; margin-bottom: 5px"
+            ></label>
+            <select
+              id="modelr"
+              class="form-control"
+              style="
+                padding: 10px;
+                width: 140px;
+                background-color: #333;
+                color: #fff;
+                border: 2px solid #555;
+                border-radius: 8px;
+                font-size: 14px;
+                cursor: pointer;
+              "
+            >
+              <option value="gemini">Gemini</option>
+              <option value="llama">llama</option>
+            </select>
+          </div>
+          <button class="btn btn-run" onclick="compileCode()">▶ Run</button>
+        </div>
+
+        <pre id="output" class="output-box">Output :</pre>
+      </div>
+    </div>
+
+    <!-- Load Ace Editor -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.14/ace.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.14/ext-language_tools.js"></script>
+    <script>
+      const editor = ace.edit("editor");
+      editor.setTheme("ace/theme/monokai"); // github for light mode
+      editor.session.setMode("ace/mode/python"); // Default to Python
+      editor.container.style.background = "#000000";
+      editor.renderer.setShowGutter(true);
+      editor.setOptions({
+        enableBasicAutocompletion: true,
+        enableSnippets: true,
+        enableLiveAutocompletion: true,
+        fontSize: "17px",
+        showLineNumbers: true,
+        showGutter: true,
+        maxLines: Infinity,
+      });
+
+      document
+        .getElementById("language")
+        .addEventListener("change", function () {
+          const language = this.value;
+          let mode = "ace/mode/python"; // Default mode
+
+          switch (language) {
+            case "c":
+            case "cpp":
+              mode = "ace/mode/c_cpp";
+              break;
+            case "java":
+              mode = "ace/mode/java";
+              break;
+            case "python":
+              mode = "ace/mode/python";
+              break;
+          }
+
+          editor.session.setMode(mode);
+        });
+
+      async function compileCode() {
+        const language = document.getElementById("language").value;
+        const modelr = document.getElementById("modelr").value;
+        const code = editor.getValue();
+
+        const startTime = performance.now();
+
+        const response = await fetch("/compile", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ language, code, modelr }),
+        });
+
+        const endTime = performance.now();
+        const timeTaken = endTime - startTime;
+
+        const result = await response.json();
+
+        document.getElementById("output").textContent = result.output;
+        document.getElementById("error").textContent = result.error;
+        document.getElementById("suggestions").textContent = result.suggestions;
+        document.getElementById("time").textContent = `${timeTaken.toFixed(
+          2
+        )} ms`;
+
+        // Highlight code in the output and error boxes
+        Prism.highlightElement(document.getElementById("output"));
+        Prism.highlightElement(document.getElementById("error"));
+      }
+    </script>
+  </body>
+</html>
