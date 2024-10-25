@@ -69,7 +69,7 @@ This project introduces an AI-powered code compiler that provides real-time code
 - **Optimization Suggestions**: Recommendations for improving performance and efficiency.
 - **Performance Metrics**: Tracks execution time and memory usage.
 
-## Screenshots
+
 
 ### User Interface Overview
 <img width="1470" alt="Screenshot 2024-10-25 at 5 23 37 PM" src="https://github.com/user-attachments/assets/cbf4e948-3a39-43b9-8e2c-2ec691bf0cee">
